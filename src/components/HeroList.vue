@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-for="hero in info" :key="hero.id">
+  <ul class="listFrame wrapper">
+    <li class="card" v-for="hero in info" :key="hero.id">
       <hero
         :id="hero.id"
         :name="hero.name"
@@ -9,11 +9,12 @@
         :selected="isSelected(hero.id)"
         @select="onSelect"
       ></hero>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script>
+// import { mapGetters } from 'vuex';
 import Hero from "@/components/Hero.vue";
 export default {
   name: "HeroList",
@@ -22,27 +23,28 @@ export default {
   },
   data() {
     return {
-      selectedHeros: []
+      // selectedHeros: []
     };
   },
   props: {
     info: { type: Array },
-    mustSelectCount: { type: Number, default: 3 }
+    maxSelectCount: { type: Number, default: 3 }
   },
+  // computed: {
+  //   ...mapGetters({
+  //     selectedHeros: 'hero/selectedHeros',
+  //   }),
+  // },
   methods: {
-    isSelected(id) {
-      return this.selectedHeros.includes(id);
+    async isSelected(id) {
+      // Booleanを返す
+      console.log("callbase=>", id);
+      var r = await this.$store.dispatch("hero/isSelected", id);
+      console.log("rrr=>", r);
+      return r;
     },
     onSelect(id) {
-      if (this.selectedHeros.includes(id)) {
-        this.selectedHeros = this.selectedHeros.filter(selectedId => selectedId !== id);
-      } else {
-        if (this.selectedHeros.length === this.mustSelectCount) {
-          alert("これ以上選べません");
-        } else {
-          this.selectedHeros.push(id);
-        }
-      }
+      this.$store.dispatch("hero/toggleHeros", { heroId: id, limit: this.maxSelectCount });
     }
   }
 };

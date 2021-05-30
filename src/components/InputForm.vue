@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <p>タイトル</p>
+    <p>キャラクターを選択してください。</p>
     <input type='text' v-model='formValue' @change="log"/>
   </div>
 </template>

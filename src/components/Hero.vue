@@ -1,27 +1,41 @@
 <template>
-  <div class="">
-    <ul class="listFrame wrapper">
-      <li>
-        <v-card class="mx-auto my-12" :class="{ selected }">
-          <v-img class="image" :src="imageUrl" alt=""> </v-img>
-          <p>{{ name }}</p>
-          <p>{{ id }}</p>
-          <div v-if="selectable">
-            <v-btn v-if="selected" depressed color="primary" @click="onSelect">
-              解除
-            </v-btn>
-            <v-btn v-if="!selected" depressed color="primary" @click="onSelect">
-              選択
-            </v-btn>
-          </div>
-          <v-btn depressed color="primary">
-            お気に入り
-          </v-btn>
-          <!-- <router-link :to="`/character/${id}`">詳細</router-link> -->
-        </v-card>
-      </li>
-    </ul>
-  </div>
+  <v-card class="mx-auto my-12" :class="{ selected }">
+    <v-progress-circular v-if="!imgLoaded" indeterminate color="primary"></v-progress-circular>
+    <!-- //オリジナル画像 -->
+    <v-img
+      v-if="!loadError"
+      @error="errorImage"
+      @load="onLoad"
+      class="image"
+      :src="imageUrl"
+      alt=""
+    ></v-img>
+    <!-- //デフォルト画像 -->
+    <v-img
+      v-if="loadError"
+      @load="onLoad"
+      class="image"
+      src="@/assets/img_noImage@2x.png"
+      Aalt=""
+    ></v-img>
+
+    <p>{{ name }}</p>
+    <p>ID:{{ id }}</p>
+    <div class="d-flex">
+      <div v-if="selectable">
+        <v-btn v-if="selected" depressed color="primary" @click="onSelect">
+          解除
+        </v-btn>
+        <v-btn v-if="!selected" depressed color="primary" @click="onSelect">
+          選択
+        </v-btn>
+      </div>
+      <v-btn depressed color="primary">
+        お気に入り
+      </v-btn>
+    </div>
+    <!-- <router-link :to="`/character/${id}`">詳細</router-link> -->
+  </v-card>
   <!-- <v-img height="250" :src="image"></v-img>
     <v-card-title>{{ name }}</v-card-title>
 
@@ -60,12 +74,22 @@ export default {
   data() {
     return {
       status: [],
-      isNull: false
+      isNull: false,
+      imgLoaded: false,
+      loadError: false
     };
   },
   methods: {
     onSelect() {
       this.$emit("select", this.id);
+    },
+    onLoad() {
+      console.log("ロードされました");
+      this.imgLoaded = true;
+    },
+    errorImage() {
+      console.log("エラーイメージ");
+      this.loadError = true;
     }
   }
   // methods: {
@@ -90,6 +114,11 @@ export default {
   background: red;
 }
 
+.d-flex {
+  display: flex;
+  justify-content: center;
+}
+
 .wrapper {
   max-width: 960px;
   width: calc(100% - 16px * 2);
@@ -103,6 +132,7 @@ export default {
 }
 
 .image {
+  height: 266px;
   max-width: 200px;
 }
 </style>
