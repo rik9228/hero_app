@@ -6,6 +6,7 @@
         :name="hero.name"
         :imageUrl="hero.image.url"
         :selectable="true"
+        :bookmarkable="true"
         :selected="isSelected(hero.id)"
         @select="onSelect"
       ></hero>
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import Hero from "@/components/Hero.vue";
 export default {
   name: "HeroList",
@@ -28,23 +29,29 @@ export default {
   },
   props: {
     info: { type: Array },
-    maxSelectCount: { type: Number, default: 3 }
+    maxSelectCount: { type: Number, default: 3 },
+    selectMode : { type: String },
   },
-  // computed: {
-  //   ...mapGetters({
-  //     selectedHeros: 'hero/selectedHeros',
-  //   }),
-  // },
+  computed: {
+    ...mapGetters({
+      isSelected: "hero/isSelected" //メソッド
+    })
+  },
   methods: {
-    async isSelected(id) {
-      // Booleanを返す
-      console.log("callbase=>", id);
-      var r = await this.$store.dispatch("hero/isSelected", id);
-      console.log("rrr=>", r);
-      return r;
-    },
+    // isSelected(id) {
+    //   // Booleanを返す
+    //   // return this.selectedHeros.includes(id);
+    //   return this.isSelected(id);
+    // },
     onSelect(id) {
-      this.$store.dispatch("hero/toggleHeros", { heroId: id, limit: this.maxSelectCount });
+      // emitで逃げたい
+      const hero = this.info.find(hero=> hero.id === id);
+      if (this.selectMode === 'hero') {
+        this.$store.dispatch("hero/toggleHeros", { hero, limit: this.maxSelectCount });
+      }
+      if (this.selectMode === 'villain') {
+        this.$store.dispatch("hero/toggleVillains", { hero, limit: this.maxSelectCount });
+      }
     }
   }
 };

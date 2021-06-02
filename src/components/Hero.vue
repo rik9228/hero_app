@@ -16,11 +16,11 @@
       @load="onLoad"
       class="image"
       src="@/assets/img_noImage@2x.png"
-      Aalt=""
+      alt=""
     ></v-img>
 
     <p>{{ name }}</p>
-    <p>ID:{{ id }}</p>
+    <!-- <p>ID:{{ id }}</p> -->
     <div class="d-flex">
       <div v-if="selectable">
         <v-btn v-if="selected" depressed color="primary" @click="onSelect">
@@ -30,7 +30,7 @@
           選択
         </v-btn>
       </div>
-      <v-btn depressed color="primary">
+      <v-btn v-if="bookmarkable" depressed color="primary">
         お気に入り
       </v-btn>
     </div>
@@ -68,6 +68,7 @@ export default {
     name: { type: String },
     imageUrl: { type: String },
     selectable: { type: Boolean, default: false },
+    bookmarkable: { type: Boolean, default: false },
     selected: { type: Boolean, default: false },
     bookmarked: { type: Boolean, default: false }
   },
