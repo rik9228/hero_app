@@ -1,11 +1,11 @@
 <template>
   <ul class="listFrame wrapper">
-    <li class="card" v-for="hero in selectedHeros" :key="hero.id">
+    <li class="card" v-for="hero in selectedHeros" :key="hero.id + '-' + hero.charcterType">
       <hero
         :id="hero.id"
         :name="hero.name"
         :imageUrl="hero.image.url"
-        :selectable="false"
+        :selectable="true"
       ></hero>
     </li>
   </ul>

@@ -2,12 +2,10 @@
   <ul class="listFrame wrapper">
     <li class="card" v-for="hero in info" :key="hero.id">
       <hero
-        :id="hero.id"
-        :name="hero.name"
-        :imageUrl="hero.image.url"
+        :hero="hero"
         :selectable="true"
         :bookmarkable="true"
-        :selected="isSelected(hero.id)"
+        :selected="isSelected(hero)"
         @select="onSelect"
       ></hero>
     </li>
@@ -28,30 +26,25 @@ export default {
     };
   },
   props: {
-    info: { type: Array },
-    maxSelectCount: { type: Number, default: 3 },
-    selectMode : { type: String },
+    info: { type: Array }
+    // maxSelectCount: { type: Number, default: 3 }
+    // selectMode : { type: String },
   },
   computed: {
-    ...mapGetters({
-      isSelected: "hero/isSelected" //メソッド
-    })
+    // ...mapGetters({
+    //   isSelected: "hero/isSelected" //メソッド
+    // })
   },
   methods: {
-    // isSelected(id) {
-    //   // Booleanを返す
-    //   // return this.selectedHeros.includes(id);
-    //   return this.isSelected(id);
-    // },
-    onSelect(id) {
-      // emitで逃げたい
-      const hero = this.info.find(hero=> hero.id === id);
-      if (this.selectMode === 'hero') {
-        this.$store.dispatch("hero/toggleHeros", { hero, limit: this.maxSelectCount });
-      }
-      if (this.selectMode === 'villain') {
-        this.$store.dispatch("hero/toggleVillains", { hero, limit: this.maxSelectCount });
-      }
+    isSelected(hero) {
+      // Booleanを返す
+      // return this.selectedHeros.includes(id);
+      console.log("calle is selected", hero);
+      console.log("isSelected result=>", this.$store.getters["hero/isSelected"]({ hero, type: "villain" }));
+      return this.$store.getters["hero/isSelected"]({ hero, type: "villain" });
+    },
+    onSelect(hero) {
+      this.$emit("select", hero);
     }
   }
 };

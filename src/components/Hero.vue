@@ -7,7 +7,7 @@
       @error="errorImage"
       @load="onLoad"
       class="image"
-      :src="imageUrl"
+      :src="hero.image.url"
       alt=""
     ></v-img>
     <!-- //デフォルト画像 -->
@@ -19,7 +19,7 @@
       alt=""
     ></v-img>
 
-    <p>{{ name }}</p>
+    <p>{{ hero.name }}</p>
     <!-- <p>ID:{{ id }}</p> -->
     <div class="d-flex">
       <div v-if="selectable">
@@ -64,9 +64,10 @@
 export default {
   name: "Hero",
   props: {
-    id: { type: String },
-    name: { type: String },
-    imageUrl: { type: String },
+    hero: { type: Object },
+    // id: { type: String },
+    // name: { type: String },
+    // imageUrl: { type: String },
     selectable: { type: Boolean, default: false },
     bookmarkable: { type: Boolean, default: false },
     selected: { type: Boolean, default: false },
@@ -82,7 +83,7 @@ export default {
   },
   methods: {
     onSelect() {
-      this.$emit("select", this.id);
+      this.$emit("select", this.hero);
     },
     onLoad() {
       console.log("ロードされました");
