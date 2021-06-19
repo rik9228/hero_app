@@ -20,7 +20,6 @@
     ></v-img>
 
     <p>{{ hero.name }}</p>
-    <!-- <p>ID:{{ id }}</p> -->
     <div class="d-flex">
       <div v-if="selectable">
         <v-btn v-if="selected" depressed color="primary" @click="onSelect">

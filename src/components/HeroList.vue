@@ -26,7 +26,8 @@ export default {
     };
   },
   props: {
-    info: { type: Array }
+    info: { type: Array },
+    selectMode : { type: String, default: 'hero' },
     // maxSelectCount: { type: Number, default: 3 }
     // selectMode : { type: String },
   },
@@ -41,7 +42,11 @@ export default {
       // return this.selectedHeros.includes(id);
       console.log("calle is selected", hero);
       console.log("isSelected result=>", this.$store.getters["hero/isSelected"]({ hero, type: "villain" }));
-      return this.$store.getters["hero/isSelected"]({ hero, type: "villain" });
+      // const fnc =this.$store.getters["hero/isSelected"];
+      // fnc({ hero, type: "villain" });
+      return this.$store.getters["hero/isSelected"]({ hero, type: this.selectMode });
+      // ↑↑↑↑↑↑ ピュアなAPIを使っているのでcharacterTypeをつける必要がある。↑↑↑↑↑↑
+      // （元のAPIにはcharacterTypeなんてものは存在しないから。コピーしたものには入っている）
     },
     onSelect(hero) {
       this.$emit("select", hero);

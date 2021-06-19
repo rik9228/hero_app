@@ -1,36 +1,46 @@
 export default {
-  namespaced: true, //モジュールとして登録できる
+  namespaced: true, // モジュールとして登録できる
   state: {
     selectedHeros: []
-    // selectedVillains: [],
   },
   getters: {
     // コンポーネントから使用するときは基本getterで拾う。（stateは非推奨）
     selectedHeros: state => state.selectedHeros, // 戻り値返す
-    // selectedVillains: state => state.selectedVillains ,// 戻り値返す
-    // isSelected: state => id => state.selectedHeros.map(hero => hero.id).includes(id),
-    isSelected: state => (hero, type) =>
+    selectedHerosFromCharacterType: state => type =>
+      state.selectedHeros.filter(hero => hero.characterType === type), // 戻り値返す
+    // キャラクタータイプを引数にとって、指定のキャラクタータイプのヒーローがselectedHerosに何体いるかのカウントを返す
+    getHeroCount: state => type =>
+      state.selectedHeros.filter(hero => hero.characterType === type).length,
+    isSelected: state => ({ hero, type }) =>
       state.selectedHeros.some(
-        selectedHero => selectedHero.id === hero.id && selectedHero.charcterType === type
+        selectedHero => selectedHero.id === hero.id && selectedHero.characterType === type
       )
-    // isSelected2: state => id => state.selectedVillains.map(hero => hero.id).includes(id),
+    // gettersでは引数を取れない。（isSelected は関数を返している）
   },
   mutations: {
     selectedHeros(state, val) {
       state.selectedHeros = val;
     }
-    // selectedVillains(state, val) {
-    //   state.selectedVillains = val;
-    // }
   },
   actions: {
+    initialize({ commit }) {
+      commit("selectedHeros", []);
+    },
     toggleHeros({ commit, state, getters }, { hero, limit }) {
-      if (getters.isSelected(hero)) {
-        console.log("うわああああああああああああああ", JSON.stringify(state.selectedHeros));
-        var newVal = state.selectedHeros.filter(
+      console.log("■■■■■■■■■■■■■■■■■■■■■");
+      console.log("called toggleHeros", hero);
+      console.log("■■■■■■■■■■■■■■■■■■■■■");
+      if (getters.isSelected({ hero, type: hero.characterType })) {
+        // 抜く
+        var indx = state.selectedHeros.findIndex(
           selectedHero =>
-            selectedHero.id !== hero.id && selectedHero.charcterType !== hero.charcterType
+            selectedHero.id === hero.id && selectedHero.characterType === hero.characterType
         );
+        console.log("■■■■■■■■■■■■■■■■■■■■■");
+        console.log("index", indx);
+        console.log("■■■■■■■■■■■■■■■■■■■■■");
+        var newVal = state.selectedHeros.slice(0, state.selectedHeros.length); // 配列のコピー 0番目から最後のindexまでをコピー
+        newVal.splice(indx, 1); // BAD：直に配列に干渉するかsliceを使う
       } else {
         if (state.selectedHeros.length >= limit) {
           alert("これ以上選べません");
@@ -43,25 +53,5 @@ export default {
       }
       commit("selectedHeros", newVal);
     }
-    // toggleVillains({ commit, state, getters }, { hero, limit }) {
-    //   if (getters.isSelected2(hero.id)) {
-    //     var newVal = state.selectedVillains.filter(selectedHero => selectedHero.id !== hero.id);
-    //   } else {
-    //     if (state.selectedVillains.length >= limit) {
-    //       alert("これ以上選べません");
-    //       return;
-    //     } else {
-    //       var newVal = state.selectedVillains.filter(selectedHero => true);
-    //       newVal.push(hero);
-    //     }
-    //   }
-    //   commit("selectedVillains", newVal);
-    // },
-    // async isSelected({ commit, state }, heroId) {
-    //   console.log("called isSelected=>", heroId);
-    //   console.log("called isSelected=>", state.selectedHeros.includes(heroId));
-    //   var result = state.selectedHeros.includes(heroId);
-    //   return result;
-    // }
   }
 };
