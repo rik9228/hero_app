@@ -2,14 +2,20 @@
   <div>
     <InputForm @onInput="log" />
     <hero-list :info="info" :selectMode="selectCharacterType" @select="onSelect" />
-    <selected-heros
-      :characterType="heroTypes.hero"
-      :selectedHeros="selectedHerosFromCharacterType(heroTypes.hero)"
-    />
-    <selected-heros
-      :characterType="heroTypes.villain"
-      :selectedHeros="selectedHerosFromCharacterType(heroTypes.villain)"
-    />
+    <div class="selectedHero">
+      <div class="selectedHeros__wrapper">
+        <selected-heros
+          :characterType="heroTypes.hero"
+          :selectedHeros="selectedHerosFromCharacterType(heroTypes.hero)"
+        />
+      </div>
+      <div class="selectedHeros__wrapper">
+        <selected-heros
+          :characterType="heroTypes.villain"
+          :selectedHeros="selectedHerosFromCharacterType(heroTypes.villain)"
+        />
+      </div>
+    </div>
     <template>
       <v-row justify="center">
         <v-dialog v-model="selectModeDialog" persistent max-width="400">
@@ -74,7 +80,8 @@ export default {
       limit: 3,
       selectModeDialog: true,
       dialog: false,
-      selectModeList: { // setting Store（設定用のストア）にいれてもよい
+      selectModeList: {
+        // setting Store（設定用のストア）にいれてもよい
         oneOnOne: {
           name: "oneOnOne",
           display: "1vs1",
@@ -95,11 +102,7 @@ export default {
         }
       },
       selectMode: "",
-      selectCharacterType: "",
-      heroTypes: {
-        villain: "villain",
-        hero: "hero"
-      },
+      selectCharacterType: ""
     };
   },
   created() {
@@ -108,6 +111,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedHeros: "hero/selectedHeros", //メソッド
+      heroTypes: "hero/heroTypes", //メソッド
       getHeroCount: "hero/getHeroCount",
       selectedHerosFromCharacterType: "hero/selectedHerosFromCharacterType"
     }),
@@ -126,7 +130,7 @@ export default {
         }
       }
       if (this.selectedHeros.length === this.maxSelectableCount) {
-        this.$router.replace({ name: "Battle" });
+        this.$router.replace({ name: "Battle", params: { battleCount : 3 } });
       }
       // if (this.selectedHeros.length === this.limit) {
       //   this.dialog = true;
@@ -145,7 +149,6 @@ export default {
         result.data.results.forEach(element => {
           arr.push(element);
           this.info = arr;
-          // console.log(this.info);
           this.errorValue = "";
         });
       } catch (error) {
@@ -162,6 +165,15 @@ export default {
       // オブジェクトのコピー（APIで取得したオブジェクトを直接書き換えるの避けるため）
       newHero.winner = false;
       newHero.loser = false;
+      newHero.powerUp = 0;
+      newHero.totalStats =
+        Number(newHero.powerstats.power) +
+        Number(newHero.powerstats.intelligence) +
+        Number(newHero.powerstats.strength) +
+        Number(newHero.powerstats.speed) +
+        Number(newHero.powerstats.durability) +
+        Number(newHero.powerstats.combat);
+      // トータル値を返す
       newHero.characterType = this.selectCharacterType;
       this.$store.dispatch("hero/toggleHeros", { hero: newHero, limit: this.maxSelectableCount });
     },
@@ -180,3 +192,13 @@ export default {
   }
 };
 </script>
+
+<style>
+.selectedHero {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  background: #00000040;
+  width: 100%;
+}
+</style>

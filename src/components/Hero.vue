@@ -1,67 +1,55 @@
+<!-- ヒーローデータの雛形内容を記入。具体的に入ってくるヒーロー（例えばバットマンとか）はここでは関係ない。親のコンポーネントからpropsで流し込まれる。 -->
 <template>
-  <v-card class="mx-auto my-12" :class="{ selected }">
-    <v-progress-circular v-if="!imgLoaded" indeterminate color="primary"></v-progress-circular>
-    <!-- //オリジナル画像 -->
-    <v-img
-      v-if="!loadError"
-      @error="errorImage"
-      @load="onLoad"
-      class="image"
-      :src="hero.image.url"
-      alt=""
-    ></v-img>
-    <!-- //デフォルト画像 -->
-    <v-img
-      v-if="loadError"
-      @load="onLoad"
-      class="image"
-      src="@/assets/img_noImage@2x.png"
-      alt=""
-    ></v-img>
+  <div :class="{ 'is-winner': isWinner, 'is-loser': isLoser }">
+    <v-card class="mx-auto my-12" :class="{ selected }">
+      <v-progress-circular v-if="!imgLoaded" indeterminate color="primary"></v-progress-circular>
+      <!-- //オリジナル画像 -->
+      <v-img
+        v-if="!loadError"
+        @error="errorImage"
+        @load="onLoad"
+        class="image"
+        :src="hero.image.url"
+        alt=""
+      ></v-img>
+      <!-- //デフォルト画像 -->
+      <v-img
+        v-if="loadError"
+        @load="onLoad"
+        class="image"
+        src="@/assets/img_noImage@2x.png"
+        alt=""
+      ></v-img>
 
-    <p>{{ hero.name }}</p>
-    <div class="d-flex">
-      <div v-if="selectable">
-        <v-btn v-if="selected" depressed color="primary" @click="onSelect">
-          解除
-        </v-btn>
-        <v-btn v-if="!selected" depressed color="primary" @click="onSelect">
-          選択
+      <p v-if="showName">{{ hero.name }}</p>
+      <div class="d-flex">
+        <div v-if="selectable">
+          <v-btn v-if="selected" depressed color="primary" @click="onSelect">
+            解除
+          </v-btn>
+          <v-btn v-if="!selected" depressed color="primary" @click="onSelect">
+            選択
+          </v-btn>
+        </div>
+        <v-btn v-if="bookmarkable" depressed color="primary">
+          お気に入り
         </v-btn>
       </div>
-      <v-btn v-if="bookmarkable" depressed color="primary">
-        お気に入り
-      </v-btn>
-    </div>
-    <!-- <router-link :to="`/character/${id}`">詳細</router-link> -->
-  </v-card>
-  <!-- <v-img height="250" :src="image"></v-img>
-    <v-card-title>{{ name }}</v-card-title>
-
-    <v-divider class="mx-4"></v-divider> -->
-
-  <!-- <v-card-text>
-      <v-chip-group v-model="selection" active-class="deep-purple accent-4 white--text" column>
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text> -->
-
-  <!-- <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="reserve">
-        Reserve
-      </v-btn>
-    </v-card-actions> -->
+      <!-- <router-link :to="`/character/${id}`">詳細</router-link> -->
+    </v-card>
+    <!-- <button @click="addd">addd</button> -->
+    <HorizontalBarChart v-if="showBarChart" :chartData="chartData" :options="options" />
+  </div>
 </template>
 
 <script>
+import HorizontalBarChart from "@/components/HorizontalBarChart.vue";
+
 export default {
   name: "Hero",
+  components: {
+    HorizontalBarChart
+  },
   props: {
     hero: { type: Object },
     // id: { type: String },
@@ -70,17 +58,96 @@ export default {
     selectable: { type: Boolean, default: false },
     bookmarkable: { type: Boolean, default: false },
     selected: { type: Boolean, default: false },
-    bookmarked: { type: Boolean, default: false }
+    bookmarked: { type: Boolean, default: false },
+    showName: { type: Boolean, default: true },
+    showBarChart: { type: Boolean, default: false }
   },
   data() {
     return {
       status: [],
       isNull: false,
       imgLoaded: false,
-      loadError: false
+      loadError: false,
+      // datacollection: {
+      //   labels: ["stats1"],
+      //   datasets: [
+      //     {
+      //       label: "Data1",
+      //       backgroundColor: "blue",
+      //       data: [this.hero.powerstats.power]
+      //     },
+      //     // {
+      //     //   label: "Data2",
+      //     //   backgroundColor: "red",
+      //     //   data: [20]
+      //     // }
+      //   ]
+      // },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [
+            {
+              ticks: {
+                min: 0, // 最小値
+                max: 1000, // 最大値
+                stepSize: 5 // 間隔
+              },
+              stacked: true
+            }
+          ],
+          yAxes: [
+            {
+              stacked: true
+            }
+          ]
+        }
+      }
     };
   },
+  computed: {
+    chartData() {
+      const datacollection = {
+        labels: ["stats1"],
+        datasets: [
+          {
+            label: "Data1",
+            backgroundColor: "blue",
+            // data: [Number(this.hero.powerstats.power)]
+            data: [this.hero.totalStats]
+          }
+        ]
+      };
+      if (this.powerUp !== 0) {
+        datacollection.datasets.push({
+          label: "Data2",
+          backgroundColor: "red",
+          data: [this.hero.powerUp]
+        });
+      }
+      return datacollection;
+    },
+    isWinner() {
+      return this.hero.winner;
+    },
+    isLoser() {
+      return this.hero.loser;
+    }
+  },
   methods: {
+    addd() {
+      this.datacollection = {
+        labels: ["January"],
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: "#f87979",
+            data: [80]
+          }
+        ]
+      };
+    },
     onSelect() {
       this.$emit("select", this.hero);
     },
@@ -133,7 +200,15 @@ export default {
 }
 
 .image {
-  height: 266px;
+  height: 180px;
   max-width: 200px;
+}
+
+.is-winner {
+  background: yellow;
+}
+
+.is-loser {
+  background: purple;
 }
 </style>

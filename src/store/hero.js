@@ -1,13 +1,18 @@
 export default {
   namespaced: true, // モジュールとして登録できる
   state: {
-    selectedHeros: []
+    selectedHeros: [],
+    heroTypes: {
+      villain: "villain",
+      hero: "hero"
+    }
   },
   getters: {
     // コンポーネントから使用するときは基本getterで拾う。（stateは非推奨）
     selectedHeros: state => state.selectedHeros, // 戻り値返す
+    heroTypes: state => state.heroTypes, // 戻り値返す
     selectedHerosFromCharacterType: state => type =>
-      state.selectedHeros.filter(hero => hero.characterType === type), // 戻り値返す
+      state.selectedHeros.filter(hero => hero.characterType === type), //selectedHeroの中から指定のヒーロータイプのヒーローを返す（メソッドアクセススタイル）
     // キャラクタータイプを引数にとって、指定のキャラクタータイプのヒーローがselectedHerosに何体いるかのカウントを返す
     getHeroCount: state => type =>
       state.selectedHeros.filter(hero => hero.characterType === type).length,

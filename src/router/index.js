@@ -28,7 +28,8 @@ const routes = [
   {
     path: "/battle",
     name: "Battle",
-    component: Battle
+    component: Battle,
+    props: true,
   },
   {
     path: "/about",

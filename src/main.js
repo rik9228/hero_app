@@ -3,7 +3,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
+import VueChartJs from 'vue-chartjs';
 
+
+Vue.use(VueChartJs);
 Vue.config.productionTip = false;
 
 new Vue({

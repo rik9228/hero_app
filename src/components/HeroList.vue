@@ -1,6 +1,7 @@
 <template>
   <ul class="listFrame wrapper">
     <li class="card" v-for="hero in info" :key="hero.id">
+      <span v-if="hero.winner">負け</span>
       <hero
         :hero="hero"
         :selectable="true"
