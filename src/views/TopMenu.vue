@@ -5,6 +5,9 @@
       <v-btn depressed color="primary" :to="{ name: 'VSmode' }">
         キャラクター選択へ
       </v-btn>
+      <v-btn depressed color="warning" :to="{ name: 'CharacterList' }">
+        キャラクターリストへ
+      </v-btn>
     </div>
   </section>
 </template>
