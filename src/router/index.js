@@ -5,6 +5,7 @@ import VSmode from "@/views/VSmode.vue";
 import Battle from "@/views/Battle.vue";
 import Character from "@/views/Character.vue";
 import TopMenu from "@/views/TopMenu.vue";
+import CharacterList from "@/views/CharacterList.vue";
 
 Vue.use(VueRouter);
 
@@ -29,7 +30,7 @@ const routes = [
     path: "/battle",
     name: "Battle",
     component: Battle,
-    props: true,
+    props: true
   },
   {
     path: "/about",
@@ -47,6 +48,11 @@ const routes = [
     path: "/character/:id",
     name: "Character",
     component: Character
+  },
+  {
+    path: "/characterList",
+    name: "CharacterList",
+    component: CharacterList
   }
 ];
 
