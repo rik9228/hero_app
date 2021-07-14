@@ -65,7 +65,7 @@ export default {
       this.btnDisabled = true;
       clearInterval(this.intervalId);
       this.$emit("submit", this.selectedItem);
-    }
+    },
   }
 };
 </script>

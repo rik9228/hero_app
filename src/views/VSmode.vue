@@ -17,4 +17,8 @@ export default {
 </script>
 
 <style>
+.selectedHero {
+  padding: 32px;
+}
+
 </style>

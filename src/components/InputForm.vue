@@ -1,34 +1,36 @@
 <template>
   <div class="box">
     <p>キャラクターを選択してください。</p>
-    <input type='text' v-model='formValue' @change="log"/>
+    <input type="text" v-model="formValue" @change="log" />
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'InputForm',
+  name: "InputForm",
   data() {
     return {
-      formValue: '',
+      formValue: ""
     };
   },
   methods: {
     log() {
-      this.$emit('onInput', this.formValue);
-    },
-  },
+      this.$emit("onInput", this.formValue);
+    }
+  }
 };
 </script>
 
 <style>
-.box{
+.box {
   max-width: 500px;
   margin: 40px auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-input[type="text"]{
+input[type="text"] {
   border: 1px solid #ccc;
 }
 </style>

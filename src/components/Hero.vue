@@ -1,7 +1,7 @@
 <!-- ヒーローデータの雛形内容を記入。具体的に入ってくるヒーロー（例えばバットマンとか）はここでは関係ない。親のコンポーネントからpropsで流し込まれる。 -->
 <template>
   <div :class="{ 'is-winner': isWinner, 'is-loser': isLoser }">
-    <v-card class="mx-auto my-12" :class="{ selected }">
+    <v-card class="mx-auto pa-5" :class="{ selected }">
       <v-progress-circular v-if="!imgLoaded" indeterminate color="primary"></v-progress-circular>
       <!-- //オリジナル画像 -->
       <v-img
@@ -21,19 +21,19 @@
         alt=""
       ></v-img>
 
-      <p v-if="showName">{{ hero.name }}</p>
+      <p class="text-center mt-5 mb-0" v-if="showName">{{ hero.name }}</p>
       <div class="d-flex">
         <div v-if="selectable">
-          <v-btn v-if="selected" depressed color="primary" @click="onSelect">
+          <v-btn v-if="selected" depressed color="primary" @click="onSelect" class="mb-5">
             解除
           </v-btn>
-          <v-btn v-if="!selected" depressed color="primary" @click="onSelect">
+          <v-btn v-if="!selected" depressed color="primary" @click="onSelect" class="mb-5">
             選択
           </v-btn>
         </div>
-        <v-btn v-if="bookmarkable" depressed color="primary">
+        <!-- <v-btn v-if="bookmarkable" depressed color="primary">
           お気に入り
-        </v-btn>
+        </v-btn> -->
       </div>
       <!-- <router-link :to="`/character/${id}`">詳細</router-link> -->
     </v-card>
@@ -200,8 +200,9 @@ export default {
 }
 
 .image {
-  height: 180px;
-  max-width: 200px;
+  max-width: 150px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .is-winner {

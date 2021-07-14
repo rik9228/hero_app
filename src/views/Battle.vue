@@ -1,13 +1,39 @@
 <template>
   <div>
     <p>バトル画面</p>
+    <v-dialog v-model="resultModalShow" persistent>
+      <v-card>
+        <v-card-title class="headline">
+          勝ち
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <selected-heros
+            v-if="heroTeamWin"
+            :characterType="heroTypes.hero"
+            :selectedHeros="selectedHerosFromCharacterType(heroTypes.hero)"
+          />
+          <selected-heros
+            v-if="!heroTeamWin"
+            :characterType="heroTypes.villain"
+            :selectedHeros="selectedHerosFromCharacterType(heroTypes.villain)"
+          />
+        </v-card-actions>
+        <v-btn @click="toTop">トップに戻る</v-btn>
+      </v-card>
+    </v-dialog>
     <!-- selected-heros（キャラ選択で選択したヴィランをここに表示したい）
     （herotypesやバトルモード等は設定ストアで管理してもよい）
     -->
-    <Janken @submit="heroJankenSelected" />
+    <Janken @submit="heroJankenSelected" :key="'hero' + battleIndex" />
     <!-- // $refs: コンポーネントのメソッドにアクセスできる -->
     <!-- 仮で'villain' ▶︎ 対象のコンポーネント全体を指す -->
-    <Janken @submit="villainJankenSelected" :showStopButton="false" ref="villain" />
+    <Janken
+      @submit="villainJankenSelected"
+      :showStopButton="false"
+      ref="villain"
+      :key="'villain' + battleIndex"
+    />
     <hero :showBarChart="true" :hero="currentHero" />
     <hero :showBarChart="true" :hero="currentVillain" />
     <selected-heros
@@ -42,7 +68,10 @@ export default {
       battleIndex: 0,
       heroJanken: null,
       villainJanken: null,
-      max: 1000
+      max: 1000,
+      heroWinCount: 0,
+      villainWinCount: 0,
+      resultModalShow: false
     };
   },
   // created() {
@@ -62,6 +91,9 @@ export default {
     },
     testComputed() {
       return this.currentHero.getTotalStats();
+    },
+    heroTeamWin() {
+      return this.heroWinCount > this.villainWinCount;
     }
   },
   methods: {
@@ -86,21 +118,27 @@ export default {
       if (heroTotal > villainTotal) {
         this.currentHero.winner = true;
         this.currentVillain.loser = true;
+        this.heroWinCount++;
+        console.log("heroWinCount:", this.heroWinCount);
         console.log("ヒーローの勝ち");
       }
       if (heroTotal < villainTotal) {
         this.currentVillain.winner = true;
         this.currentHero.loser = true;
+        this.villainWinCount++;
+        console.log("villainWinCount:", this.villainWinCount);
         console.log("ヴィランの勝ち");
       }
       if (heroTotal === villainTotal) {
         this.currentVillain.winner = true;
         this.currentHero.loser = true;
+        this.villainWinCount++;
       }
       // this.currentHero.winner = true;
       console.log("result=>", result);
       if (this.battleIndex === this.battleCount - 1) {
         console.log("終了");
+        this.resultModalShow = true;
         return;
       }
       setTimeout(() => {
@@ -109,6 +147,9 @@ export default {
     },
     getRandomTime() {
       return Math.random() * this.max;
+    },
+    toTop() {
+      this.$router.replace({ name: "TopMenu" });
     }
   }
 };

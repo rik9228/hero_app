@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-app-bar app color="primary" dark> </v-app-bar>
+    <v-app-bar app color="primary" dark>
+    </v-app-bar>
     <p>このページは{{ $route.params.id }}です</p>
   </div>
 </template>

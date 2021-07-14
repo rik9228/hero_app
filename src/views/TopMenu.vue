@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <h2>top</h2>
-    <v-btn depressed color="primary" :to="{ name: 'VSmode' }">
-      遷移先
-    </v-btn>
-  </div>
+  <section class="top">
+    <div class="top__wrapper wrapper">
+      <h2 class="top__title">ヒーロー対戦アプリ</h2>
+      <v-btn depressed color="primary" :to="{ name: 'VSmode' }">
+        キャラクター選択へ
+      </v-btn>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -14,4 +16,25 @@ export default {
 </script>
 
 <style>
+.wrapper {
+  max-width: 1000px;
+  width: calc(100% - 32px * 2);
+  margin: 0 auto;
+}
+
+.top__wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 32px;
+}
+.top__title {
+  text-align: center;
+}
+
+.v-btn {
+  margin-top: 32px;
+}
 </style>

@@ -18,7 +18,7 @@
     </div>
     <template>
       <v-row justify="center">
-        <v-dialog v-model="selectModeDialog" persistent max-width="400">
+        <v-dialog v-model="selectModeDialog" persistent max-width="500">
           <v-card>
             <v-card-title class="headline">
               バトルモードを選択してください。
@@ -28,8 +28,9 @@
               <v-btn
                 v-for="selectMode in selectModeList"
                 :key="selectMode.name"
-                color="green darken-1"
+                color="green darken-1 white--text"
                 @click="confirmSelectMode(selectMode.name)"
+                class="btn"
               >
                 {{ selectMode.display }}
               </v-btn>
@@ -86,19 +87,22 @@ export default {
           name: "oneOnOne",
           display: "1vs1",
           hero: 1,
-          villain: 1
+          villain: 1,
+          battleCount: 1
         },
         threeOnThree: {
           name: "threeOnThree",
           display: "3vs3",
           hero: 3,
-          villain: 3
+          villain: 3,
+          battleCount: 3
         },
         fiveOnFive: {
           name: "fiveOnFive",
           display: "5vs5",
           hero: 5,
-          villain: 5
+          villain: 5,
+          battleCount: 5
         }
       },
       selectMode: "",
@@ -130,7 +134,10 @@ export default {
         }
       }
       if (this.selectedHeros.length === this.maxSelectableCount) {
-        this.$router.replace({ name: "Battle", params: { battleCount : 3 } });
+        this.$router.replace({
+          name: "Battle",
+          params: { battleCount: this.selectModeList[this.selectMode].battleCount }
+        });
       }
       // if (this.selectedHeros.length === this.limit) {
       //   this.dialog = true;
@@ -193,12 +200,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .selectedHero {
   position: fixed;
   bottom: 0;
   display: flex;
   background: #00000040;
   width: 100%;
+}
+
+.btn {
+  flex: 100;
 }
 </style>
