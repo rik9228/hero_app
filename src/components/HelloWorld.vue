@@ -1,151 +1,135 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
+    <h1>table</h1>
+    <v-data-table :headers="headers" :items="desserts" class="elevation-1">
+      <template v-slot:item.calories="{ item }">
+      <v-avatar>
+      <img
+        :src="item.calories"
+        alt="John"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
-    </v-row>
+      </v-avatar>
+        <!-- <v-btn>{{item.calories}}</v-btn> -->
+        <!-- <v-chip
+          :color="getColor(item.calories)"
+          dark
+        >
+          {{ item.calories }}
+        </v-chip> -->
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
 <script>
+// https://reffect.co.jp/vue/vue-js-slot-scoped-slot#Scoped_SlotSlot
+
 export default {
   name: 'HelloWorld',
 
   data: () => ({
-    ecosystem: [
+    headers: [
       {
-        text: 'vuetify-loader',
-        href: 'https://github.com/vuetifyjs/vuetify-loader',
+        text: 'Dessert (100g serving)',
+        align: 'start',
+        sortable: false,
+        value: 'name',
       },
-      {
-        text: 'github',
-        href: 'https://github.com/vuetifyjs/vuetify',
-      },
-      {
-        text: 'awesome-vuetify',
-        href: 'https://github.com/vuetifyjs/awesome-vuetify',
-      },
+      { text: 'Calories', value: 'calories' },
+      { text: 'Fat (g)', value: 'fat' },
+      { text: 'Carbs (g)', value: 'carbs' },
+      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Iron (%)', value: 'iron' },
     ],
-    importantLinks: [
+    desserts: [
       {
-        text: 'Documentation',
-        href: 'https://vuetifyjs.com',
+        name: 'Frozen Yogurt',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 6.0,
+        carbs: 24,
+        protein: 4.0,
+        iron: '1%',
       },
       {
-        text: 'Chat',
-        href: 'https://community.vuetifyjs.com',
+        name: 'Ice cream sandwich',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 9.0,
+        carbs: 37,
+        protein: 4.3,
+        iron: '1%',
       },
       {
-        text: 'Made with Vuetify',
-        href: 'https://madewithvuejs.com/vuetify',
+        name: 'Eclair',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 16.0,
+        carbs: 23,
+        protein: 6.0,
+        iron: '7%',
       },
       {
-        text: 'Twitter',
-        href: 'https://twitter.com/vuetifyjs',
+        name: 'Cupcake',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 3.7,
+        carbs: 67,
+        protein: 4.3,
+        iron: '8%',
       },
       {
-        text: 'Articles',
-        href: 'https://medium.com/vuetify',
-      },
-    ],
-    whatsNext: [
-      {
-        text: 'Explore components',
-        href: 'https://vuetifyjs.com/components/api-explorer',
+        name: 'Gingerbread',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 16.0,
+        carbs: 49,
+        protein: 3.9,
+        iron: '16%',
       },
       {
-        text: 'Select a layout',
-        href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
+        name: 'Jelly bean',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 0.0,
+        carbs: 94,
+        protein: 0.0,
+        iron: '0%',
       },
       {
-        text: 'Frequently Asked Questions',
-        href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+        name: 'Lollipop',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 0.2,
+        carbs: 98,
+        protein: 0,
+        iron: '2%',
+      },
+      {
+        name: 'Honeycomb',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 3.2,
+        carbs: 87,
+        protein: 6.5,
+        iron: '45%',
+      },
+      {
+        name: 'Donut',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 25.0,
+        carbs: 51,
+        protein: 4.9,
+        iron: '22%',
+      },
+      {
+        name: 'KitKat',
+        calories: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        fat: 26.0,
+        carbs: 65,
+        protein: 7,
+        iron: '6%',
       },
     ],
   }),
+  methods: {
+    getColor(calories) {
+      if (calories > 400) return 'red';
+      if (calories > 200) return 'orange';
+      return 'green';
+    },
+  },
 };
 </script>

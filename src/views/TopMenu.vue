@@ -13,8 +13,18 @@
 </template>
 
 <script>
+import allHeroes from "@/assets/all.json";
 export default {
-  name: "TopMenu"
+  name: "TopMenu",
+  // methods: {
+  //   editJson() {
+  //     var fs = require("fs");
+  //     var path = require("path");
+
+  //     var config = JSON.parse(allHeroes);
+  //     console.log("config=>", config);
+  //   }
+  // }
 };
 </script>
 
