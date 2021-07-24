@@ -1,14 +1,11 @@
 <template>
-  <div>
+  <div class="wrapper mt-5">
     <p>キャラクタ一覧ページ</p>
-
     <heroTable :headers="headers" :heroes="heroes" @rowClick="onRowClick" />
-
-    <v-dialog v-model="showDetailModal" persistent>
+    <v-dialog v-model="showDetailModal" :max-width="400">
       <v-card>
         <hero :hero="selectedHero" :showDetail="true" />
-        <!-- <h1>{{ selectedHero.name }}</h1> -->
-        <v-btn @click="closeDetailModal">閉じる</v-btn>
+        <v-btn block @click="closeDetailModal" class="mt-0">閉じる</v-btn>
       </v-card>
     </v-dialog>
   </div>
@@ -35,11 +32,11 @@ export default {
   computed: {
     headers() {
       return [
-        { text: "image", value: "image" },
-        { text: "Name", value: "name", width: "20%" },
-        { text: "PowerStatus", value: "power" },
-        { text: "publisher", value: "publisher" },
-        { text: "embrem", value: "embrem" },
+        { text: "アイコン", value: "image" },
+        { text: "名前", value: "name", width: "20%" },
+        { text: "ステータス値", value: "power" },
+        { text: "出版社", value: "publisher" },
+        { text: " ", value: "embrem" },
       ];
     },
     heroes() {
@@ -47,7 +44,13 @@ export default {
         return {
           id: hero.id,
           name: hero.name,
-          power: hero.powerstats.intelligence,
+          power:
+            hero.powerstats.intelligence +
+            hero.powerstats.strength +
+            hero.powerstats.speed +
+            hero.powerstats.durability +
+            hero.powerstats.power +
+            hero.powerstats.combat,
           publisher: hero.biography.publisher,
           image: hero.images.sm,
           embrem: this.getEmbrem(hero.biography.publisher),
