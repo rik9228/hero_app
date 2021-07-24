@@ -9,16 +9,7 @@ export default {
   name: "VSmode",
   components: {
     CharacterSelect
-  },
-  created() {
-    console.log("aaaaaaaaa");
   }
 };
 </script>
 
-<style>
-.selectedHero {
-  padding: 32px;
-}
-
-</style>
