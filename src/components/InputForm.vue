@@ -1,7 +1,13 @@
 <template>
   <div class="box">
     <p>キャラクターを選択してください。</p>
-    <input type="text" v-model="formValue" @change="log" />
+    <input
+      type="text"
+      v-model="formValue"
+      @change="log"
+      placeholder="英語でキャラクター名を入力してください：Hulk"
+      class="pa-1 col-12"
+    />
   </div>
 </template>
 

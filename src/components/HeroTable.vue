@@ -9,11 +9,10 @@
   >
     <template v-slot:item.image="{ item }">
       <v-avatar>
-        <img :src="item.image" alt="John" />
+        <img :src="item.image" alt="" />
       </v-avatar>
     </template>
     <template v-slot:item.embrem="{ item }">
-      <!-- <img :src="item.embrem" alt="" /> -->
       <v-img max-height="50" max-width="50" :src="item.embrem"></v-img>
     </template>
   </v-data-table>
@@ -24,7 +23,7 @@ export default {
   name: "HeroTable",
   props: {
     headers: { type: Array, require: true },
-    heroes: { type: Array, require: true }
+    heroes: { type: Array, require: true },
   },
   data() {
     return {};
@@ -32,8 +31,8 @@ export default {
   methods: {
     onRowClick(item) {
       this.$emit("rowClick", item.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

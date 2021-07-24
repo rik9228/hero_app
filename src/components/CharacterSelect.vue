@@ -19,8 +19,8 @@
     <template>
       <v-row justify="center">
         <v-dialog v-model="selectModeDialog" persistent max-width="500">
-          <v-card>
-            <v-card-title class="headline">
+          <v-card class="pa-5">
+            <v-card-title class="headline justify-center">
               バトルモードを選択してください。
             </v-card-title>
             <v-card-actions>

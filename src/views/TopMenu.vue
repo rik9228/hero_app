@@ -1,12 +1,13 @@
 <template>
-  <section class="top">
+  <section class="top mt-5">
     <div class="top__wrapper wrapper">
       <h2 class="top__title">ヒーロー対戦アプリ</h2>
-      <v-btn depressed color="primary" :to="{ name: 'VSmode' }">
+      <p class="text-center mt-2">好きなヒーロー同士で戦わせよう。</p>
+      <v-btn color="primary" :to="{ name: 'VSmode' }">
         キャラクター選択へ
       </v-btn>
-      <v-btn depressed color="warning" :to="{ name: 'CharacterList' }">
-        キャラクターリストへ
+      <v-btn color="warning" :to="{ name: 'CharacterList' }">
+        キャラクター一覧へ
       </v-btn>
     </div>
   </section>
@@ -15,7 +16,7 @@
 <script>
 import allHeroes from "@/assets/all.json";
 export default {
-  name: "TopMenu",
+  name: "TopMenu"
   // methods: {
   //   editJson() {
   //     var fs = require("fs");
