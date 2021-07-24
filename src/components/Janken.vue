@@ -1,10 +1,16 @@
 <template>
-  <div>
+  <div class="">
     <!-- assets 不具合 -->
     <img v-show="selectedItem.value === 'go'" src="../assets/go.png" alt="" />
     <img v-show="selectedItem.value === 'choki'" src="../assets/choki.png" alt="" />
     <img v-show="selectedItem.value === 'pa'" src="../assets/pa.png" alt="" />
-    <button v-if="showStopButton" :disabled="btnDisabled" class="stop__button" @click="submit">
+    <button
+      v-if="showStopButton"
+      :disabled="btnDisabled"
+      class="stop__button"
+      block
+      @click="submit"
+    >
       ストップ
     </button>
   </div>
@@ -65,7 +71,7 @@ export default {
       this.btnDisabled = true;
       clearInterval(this.intervalId);
       this.$emit("submit", this.selectedItem);
-    },
+    }
   }
 };
 </script>
@@ -82,6 +88,9 @@ img {
   color: #fff;
   border-radius: 5px;
   display: block;
+  width: 100%;
+  transform: translateX(60%);
+  margin-top: 40px;
 }
 
 .stop__button:disabled {
