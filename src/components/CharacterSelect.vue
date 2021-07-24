@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <InputForm @onInput="log" />
+  <div class="character-select">
+    <InputForm @onInput="fetchHeroes" />
+    <p v-if="errorFlag" class="text-center">{{ errorValue }}</p>
     <hero-list :info="info" :selectMode="selectCharacterType" @select="onSelect" />
     <div class="selectedHero">
       <div class="selectedHeros__wrapper">
@@ -40,16 +41,15 @@
         <v-dialog v-model="dialog" persistent max-width="400">
           <v-card>
             <v-card-title class="headline">
-              Use Google's location service?
+              ヴィラン選択に進みますか？
             </v-card-title>
-            <v-card-text>終わったの？</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" @click="heroReset">
+              <v-btn color="green white--text secondary" @click="heroReset">
                 ヒーローを再選択
               </v-btn>
-              <v-btn color="green darken-1" @click="selectVillains">
-                ヴィラン選択に進む
+              <v-btn color="green white--text success" @click="selectVillains">
+                はい
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -106,7 +106,10 @@ export default {
         }
       },
       selectMode: "",
-      selectCharacterType: ""
+      selectCharacterType: "",
+      drawer: false,
+      group: null,
+      errorFlag: false
     };
   },
   created() {
@@ -139,13 +142,13 @@ export default {
           params: { battleCount: this.selectModeList[this.selectMode].battleCount }
         });
       }
-      // if (this.selectedHeros.length === this.limit) {
-      //   this.dialog = true;
-      // }
+    },
+    group() {
+      this.drawer = false;
     }
   },
   methods: {
-    async log(value) {
+    async fetchHeroes(value) {
       this.inputVal = value;
       const arr = [];
       let result;
@@ -159,15 +162,16 @@ export default {
           this.errorValue = "";
         });
       } catch (error) {
+        this.errorFlag = true;
         this.errorValue = "キャラクターが見つかりません";
         this.info = [];
       }
     },
     onSelect(hero) {
       // infoをコピー（直接書き換えることになるから）
-      console.log("■■■■■■■■■■■■■■■■■■■■■");
-      console.log("called home onSelect", hero);
-      console.log("■■■■■■■■■■■■■■■■■■■■■");
+      // console.log("■■■■■■■■■■■■■■■■■■■■■");
+      // console.log("called home onSelect", hero);
+      // console.log("■■■■■■■■■■■■■■■■■■■■■");
       const newHero = JSON.parse(JSON.stringify(hero));
       // オブジェクトのコピー（APIで取得したオブジェクトを直接書き換えるの避けるため）
       newHero.winner = false;
