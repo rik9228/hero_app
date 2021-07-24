@@ -4,8 +4,8 @@
     <input
       type="text"
       v-model="formValue"
-      @change="log"
-      placeholder="英語でキャラクター名を入力してください：Hulk"
+      @change="fetchHeros"
+      placeholder="英語でキャラクター名を入力してください：例）Hulk（部分一致可）"
       class="pa-1 col-12"
     />
   </div>
@@ -20,7 +20,7 @@ export default {
     };
   },
   methods: {
-    log() {
+    fetchHeros() {
       this.$emit("onInput", this.formValue);
     }
   }
