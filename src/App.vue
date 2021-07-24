@@ -1,7 +1,11 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>スーパーヒーロー対戦</v-toolbar-title>
+      <v-toolbar-title>
+        <v-btn class="title-link mt-0" color="primary" :ripple="false" to="/">
+          スーパーヒーロー対戦</v-btn
+        >
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
