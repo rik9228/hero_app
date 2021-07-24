@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <h1>{{ characterType }}</h1>
-    <ul class="listFrame listFrame--02 wrapper">
+  <div class="mx-auto">
+    <p class="ma-0 text-center">{{ characterTypeJa }}チーム</p>
+    <div v-if="showWinCount">
+      <p class="text-center">勝ち数：{{ heroWinCount }}{{ villainWinCount }}</p>
+    </div>
+    <ul class="listFrame--02 wrapper pl-0 mx-auto">
       <li
         class="card listItem--selected-hero"
         v-for="hero in selectedHeros"
@@ -30,9 +33,21 @@ export default {
   },
   props: {
     characterType: { type: String, require: true },
-    selectedHeros: { type: Array, require: true }
+    selectedHeros: { type: Array, require: true },
+    heroWinCount: { type: Number, require: true },
+    villainWinCount: { type: Number, require: true },
+    showWinCount: { type: Boolean, require: true }
   },
-  methods: {}
+  computed: {
+    characterTypeJa() {
+      if (this.characterType === "hero") {
+        return "ヒーロー";
+      }
+      if (this.characterType === "villain") {
+        return "ヴィラン";
+      }
+    }
+  }
 };
 </script>
 
@@ -45,12 +60,14 @@ h1 {
   display: flex;
 }
 
-.hero--selected {
-  max-width: 150px;
-  width: 100%;
+.listItem--selected-hero {
+  width: 8vw;
+  height: auto;
+  /* max-height: 120px; */
+  object-fit: cover;
 }
 
-.listItem--selected-hero {
-  width: 10%;
+.card:not(:first-of-type) {
+  margin-left: 10px;
 }
 </style>
