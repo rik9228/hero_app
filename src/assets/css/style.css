@@ -1,0 +1,19 @@
+.wrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.powerstats__listFrame {
+  max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.title-link::before {
+  display: none;
+}
