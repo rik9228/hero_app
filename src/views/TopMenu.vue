@@ -4,7 +4,7 @@
       <h2 class="top__title">ヒーロー対戦アプリ</h2>
       <p class="text-center mt-2">好きなヒーロー同士で戦わせよう。</p>
       <v-btn color="primary" :to="{ name: 'VSmode' }">
-        キャラクター選択へ
+        バトルモード
       </v-btn>
       <v-btn color="warning" :to="{ name: 'CharacterList' }">
         キャラクター一覧へ
