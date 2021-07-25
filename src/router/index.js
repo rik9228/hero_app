@@ -1,15 +1,36 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Store from "@/store/index";
+import VSmode from "@/views/VSmode.vue";
+import Battle from "@/views/Battle.vue";
 import Character from "@/views/Character.vue";
+import TopMenu from "@/views/TopMenu.vue";
+import CharacterList from "@/views/CharacterList.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "TopMenu",
+    component: TopMenu
+  },
+  {
+    path: "/vsmode",
+    name: "VSmode",
+    component: VSmode,
+    beforeEnter: (to, from, next) => {
+      // beforeEnter：コンポーネント単位でルーティング時に任意の処理を突っ込む
+      // beforeEach：全てのコンポーネントでルーティング時に任意の処理を突っ込む
+      Store.dispatch("hero/initialize");
+      next(); // next が必要（マスト）
+    }
+  },
+  {
+    path: "/battle",
+    name: "Battle",
+    component: Battle,
+    props: true
   },
   {
     path: "/about",
@@ -27,6 +48,11 @@ const routes = [
     path: "/character/:id",
     name: "Character",
     component: Character
+  },
+  {
+    path: "/characterList",
+    name: "CharacterList",
+    component: CharacterList
   }
 ];
 

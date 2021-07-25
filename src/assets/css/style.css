@@ -1,0 +1,68 @@
+.wrapper {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+tr {
+  cursor: pointer;
+}
+
+* {
+  list-style: none;
+}
+
+.selected {
+  background: red;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  max-width: 960px;
+  width: calc(100% - 16px * 2);
+  margin: 0 auto;
+}
+
+.listFrame {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 56px;
+  column-gap: 52px;
+}
+
+.image {
+  max-width: 150px;
+  height: auto;
+}
+
+.powerstats__listFrame {
+  max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.title-link::before {
+  display: none;
+}
+.selectedHero {
+  position: relative;
+  padding: 32px;
+}
+
+.selectedHero__btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.character-select {
+  min-height: 800px;
+}
+
+.selectedHeros__wrapper:nth-of-type(2) {
+  margin-left: 40px;
+}

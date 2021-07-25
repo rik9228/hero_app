@@ -1,12 +1,12 @@
 <template>
-  <ul class="listFrame wrapper">
+  <ul class="listFrame wrapper pl-0">
     <li class="card" v-for="hero in info" :key="hero.id">
+      <span v-if="hero.winner">負け</span>
       <hero
-        :id="hero.id"
-        :name="hero.name"
-        :imageUrl="hero.image.url"
+        :hero="hero"
         :selectable="true"
-        :selected="isSelected(hero.id)"
+        :bookmarkable="true"
+        :selected="isSelected(hero)"
         @select="onSelect"
       ></hero>
     </li>
@@ -14,37 +14,28 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 import Hero from "@/components/Hero.vue";
 export default {
   name: "HeroList",
   components: {
     Hero
   },
-  data() {
-    return {
-      // selectedHeros: []
-    };
-  },
   props: {
     info: { type: Array },
-    maxSelectCount: { type: Number, default: 3 }
+    selectMode : { type: String, default: 'hero' },
   },
-  // computed: {
-  //   ...mapGetters({
-  //     selectedHeros: 'hero/selectedHeros',
-  //   }),
-  // },
   methods: {
-    async isSelected(id) {
+    isSelected(hero) {
       // Booleanを返す
-      console.log("callbase=>", id);
-      var r = await this.$store.dispatch("hero/isSelected", id);
-      console.log("rrr=>", r);
-      return r;
+      // console.log("calle is selected", hero);
+      // console.log("isSelected result=>", this.$store.getters["hero/isSelected"]({ hero, type: "villain" }));
+      return this.$store.getters["hero/isSelected"]({ hero, type: this.selectMode });
+      // ↑↑↑↑↑↑ ピュアなAPIを使っているのでcharacterTypeをつける必要がある。↑↑↑↑↑↑
+      // （元のAPIにはcharacterTypeなんてものは存在しないから。コピーしたものには入っている）
     },
-    onSelect(id) {
-      this.$store.dispatch("hero/toggleHeros", { heroId: id, limit: this.maxSelectCount });
+    onSelect(hero) {
+      this.$emit("select", hero);
     }
   }
 };
