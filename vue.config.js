@@ -9,5 +9,9 @@ module.exports = {
         poll: true
       }
     }
-  }
+  },
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "/hero_app/" //任意
+      : "/"
 };
